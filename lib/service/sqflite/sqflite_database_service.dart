@@ -67,9 +67,31 @@ class SqfliteDatabaseService implements DatabaseService{
     }
   }
 
-  // CRUD Operasyonları
-  // Create, Read, Update, Delete
-  // Oluştur, Oku, Güncelle, Sil
+
+
+  Map<String, dynamic> _kitapToMap(Kitap kitap) {
+    Map<String, dynamic> kitapMap = kitap.toMap();
+    DateTime? olusturulmaTarihi = kitapMap["olusturulmaTarihi"];
+    if (olusturulmaTarihi != null) {
+      kitapMap["olusturulmaTarihi"] = olusturulmaTarihi.millisecondsSinceEpoch;
+    }
+    return kitapMap;
+  }
+
+  Kitap _mapToKitap(Map<String, dynamic> m) {
+    Map<String, dynamic> kitapMap = Map.from(m);
+    int? olusturulmaTarihi = kitapMap["olusturulmaTarihi"];
+    if (olusturulmaTarihi != null) {
+      kitapMap["olusturulmaTarihi"] = DateTime.fromMillisecondsSinceEpoch(
+        olusturulmaTarihi,
+      );
+    }
+    return Kitap.fromMap(kitapMap);
+  }
+
+
+
+  // CRUD kitap(lar)
 
   @override
   Future createKitap(Kitap kitap) async{
@@ -171,6 +193,10 @@ class SqfliteDatabaseService implements DatabaseService{
     }
   }
 
+
+
+  // CRUD bölüm(ler)
+
   @override
   Future createBolum(Bolum bolum)async {
     Database? db = await _veriTabaniniGetir();
@@ -228,25 +254,5 @@ class SqfliteDatabaseService implements DatabaseService{
     } else {
       return 0;
     }
-  }
-
-  Map<String, dynamic> _kitapToMap(Kitap kitap) {
-    Map<String, dynamic> kitapMap = kitap.toMap();
-    DateTime? olusturulmaTarihi = kitapMap["olusturulmaTarihi"];
-    if (olusturulmaTarihi != null) {
-      kitapMap["olusturulmaTarihi"] = olusturulmaTarihi.millisecondsSinceEpoch;
-    }
-    return kitapMap;
-  }
-
-  Kitap _mapToKitap(Map<String, dynamic> m) {
-    Map<String, dynamic> kitapMap = Map.from(m);
-    int? olusturulmaTarihi = kitapMap["olusturulmaTarihi"];
-    if (olusturulmaTarihi != null) {
-      kitapMap["olusturulmaTarihi"] = DateTime.fromMillisecondsSinceEpoch(
-        olusturulmaTarihi,
-      );
-    }
-    return Kitap.fromMap(kitapMap);
   }
 }

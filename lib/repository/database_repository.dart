@@ -1,3 +1,7 @@
+// ----- lib/repository/database_repository.dart -----
+//
+
+
 import 'package:yazar/base/database_base.dart';
 import 'package:yazar/model/bolum.dart';
 import 'package:yazar/model/kitap.dart';
@@ -7,8 +11,12 @@ import 'package:yazar/service/sqflite/sqflite_database_service.dart';
 import 'package:yazar/tools/locator.dart';
 
 class DatabaseRepository implements DatabaseBase {
+
   final DatabaseService _service = locator<ApiDatabaseService>();
   final DatabaseService _sqfliteService = locator<SqfliteDatabaseService>();
+
+
+  // CRUD kitap(lar)
 
   @override
   Future createKitap(Kitap kitap) async {
@@ -35,6 +43,9 @@ class DatabaseRepository implements DatabaseBase {
   Future<int> deleteKitaplar(List kitapIdleri) async {
     return await _service.deleteKitaplar(kitapIdleri);
   }
+
+
+  // CRUD bölüm(ler)
 
   @override
   Future createBolum(Bolum bolum) async {
